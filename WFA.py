@@ -21,26 +21,41 @@ st.set_page_config(
 # ─────────────────────────────────────────────
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap');
 
+/* ── PALETTE ────────────────────────────────────────────────
+   Teal       #0d9488  /  #0f766e  /  #99f6e4 (light)
+   Aqua Frost #e0f7f4  /  #b2ede7  (surface tints)
+   Gray       #374151  /  #6b7280  /  #d1d5db  /  #f3f4f6
+   Black      #0f1117  (deep bg)  /  #1c2230  (sidebar)
+   ──────────────────────────────────────────────────────── */
 :root {
-    --bg:        #f4f5f7;
-    --surface:   #ffffff;
-    --border:    #e4e6ea;
-    --accent:    #2563eb;
-    --accent-lt: #eff6ff;
-    --ok:        #16a34a;
-    --ok-lt:     #f0fdf4;
-    --warn:      #d97706;
-    --warn-lt:   #fffbeb;
-    --danger:    #dc2626;
-    --danger-lt: #fef2f2;
-    --text:      #1a1d23;
-    --muted:     #6b7280;
-    --faint:     #adb5bd;
-    --radius:    10px;
+    --bg:          #f0faf9;
+    --bg2:         #e6f4f2;
+    --surface:     #ffffff;
+    --sidebar-bg:  #1c2230;
+    --border:      #cce8e5;
+    --border-dk:   #2d3748;
+    --teal:        #0d9488;
+    --teal-dk:     #0f766e;
+    --teal-lt:     #e0f7f4;
+    --teal-mid:    #99f6e4;
+    --aqua:        #b2ede7;
+    --ok:          #0d9488;
+    --ok-lt:       #e0f7f4;
+    --warn:        #d97706;
+    --warn-lt:     #fffbeb;
+    --danger:      #dc2626;
+    --danger-lt:   #fef2f2;
+    --text:        #0f1117;
+    --text-sb:     #e2e8f0;
+    --muted:       #4b5563;
+    --muted-sb:    #94a3b8;
+    --faint:       #9ca3af;
+    --radius:      10px;
 }
 
+/* ── GLOBAL ── */
 html, body, [class*="css"] {
     font-family: 'DM Sans', sans-serif !important;
     background: var(--bg) !important;
@@ -48,43 +63,81 @@ html, body, [class*="css"] {
 }
 .stApp { background: var(--bg) !important; }
 #MainMenu, footer, header { visibility: hidden; }
-.block-container { padding-top: 1.8rem !important; padding-bottom: 2rem !important; max-width: 1080px !important; }
+.block-container {
+    padding-top: 1.8rem !important;
+    padding-bottom: 2rem !important;
+    max-width: 1100px !important;
+}
 
 /* ── SIDEBAR ── */
 section[data-testid="stSidebar"] {
-    background: var(--surface) !important;
-    border-right: 1px solid var(--border) !important;
+    background: var(--sidebar-bg) !important;
+    border-right: 1px solid var(--border-dk) !important;
 }
 section[data-testid="stSidebar"] > div { padding-top: 1.2rem !important; }
 
+/* sidebar labels */
+section[data-testid="stSidebar"] label,
+section[data-testid="stSidebar"] p,
+section[data-testid="stSidebar"] span {
+    color: var(--muted-sb) !important;
+}
+
+/* brand block */
 .app-brand {
     display: flex; align-items: center; gap: 11px;
-    background: var(--accent-lt); border: 1px solid #bfdbfe;
+    background: rgba(13,148,136,0.18);
+    border: 1px solid rgba(153,246,228,0.25);
     border-radius: var(--radius); padding: 13px 15px; margin-bottom: 18px;
 }
 .app-brand-icon {
-    width: 38px; height: 38px; background: var(--accent);
+    width: 38px; height: 38px;
+    background: linear-gradient(135deg, var(--teal), var(--teal-dk));
     border-radius: 9px; display: flex; align-items: center;
     justify-content: center; font-size: 19px; flex-shrink: 0;
 }
-.app-brand-name { font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.2; }
-.app-brand-sub  { font-size: 11px; color: var(--muted); }
+.app-brand-name { font-size: 13px; font-weight: 600; color: #e2e8f0 !important; line-height: 1.2; }
+.app-brand-sub  { font-size: 11px; color: var(--muted-sb) !important; }
 
-.sb-section { font-size: 9px; font-weight: 600; letter-spacing: 1.1px;
-    text-transform: uppercase; color: var(--faint); padding: 0 4px 5px; margin-top: 6px; }
+.sb-section {
+    font-size: 9px; font-weight: 600; letter-spacing: 1.2px;
+    text-transform: uppercase; color: #64748b !important;
+    padding: 0 4px 5px; margin-top: 6px;
+}
 
+/* sidebar mini cards */
 .mini-card {
-    background: var(--bg); border: 1px solid var(--border);
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--border-dk);
     border-radius: 8px; padding: 11px 13px; margin-bottom: 7px;
 }
-.mini-card .mc-lbl { font-size: 9px; font-weight: 600; text-transform: uppercase;
-    letter-spacing: .7px; color: var(--muted); margin-bottom: 3px; }
-.mini-card .mc-val { font-size: 21px; font-weight: 600; color: var(--text); }
-.mini-card .mc-sub { font-size: 10px; color: var(--faint); margin-top: 1px; }
-.mini-card.ok    { background: var(--ok-lt);     border-color: #bbf7d0; }
-.mini-card.ok    .mc-val { color: var(--ok); }
-.mini-card.danger{ background: var(--danger-lt); border-color: #fecaca; }
-.mini-card.danger .mc-val { color: var(--danger); }
+.mini-card .mc-lbl {
+    font-size: 9px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: .7px; color: var(--muted-sb) !important; margin-bottom: 3px;
+}
+.mini-card .mc-val { font-size: 21px; font-weight: 600; color: #e2e8f0 !important; }
+.mini-card .mc-sub { font-size: 10px; color: #64748b !important; margin-top: 1px; }
+.mini-card.ok    { background: rgba(13,148,136,0.15); border-color: rgba(153,246,228,0.3); }
+.mini-card.ok    .mc-val { color: var(--teal-mid) !important; }
+.mini-card.danger{ background: rgba(220,38,38,0.12); border-color: rgba(254,202,202,0.3); }
+.mini-card.danger .mc-val { color: #fca5a5 !important; }
+
+/* sidebar button — Refresh: white static */
+.stButton > button {
+    background: #ffffff !important;
+    color: var(--teal-dk) !important;
+    border: 1px solid var(--aqua) !important;
+    border-radius: 8px !important;
+    font-family: 'DM Sans', sans-serif !important;
+    font-weight: 600 !important; font-size: 13px !important;
+    padding: 9px 20px !important;
+    width: 100% !important;
+}
+.stButton > button:hover {
+    background: #ffffff !important;
+    opacity: 1 !important;
+    border-color: var(--aqua) !important;
+}
 
 /* ── INPUTS ── */
 .stSelectbox > div > div,
@@ -97,39 +150,32 @@ section[data-testid="stSidebar"] > div { padding-top: 1.2rem !important; }
     border-radius: 8px !important;
     color: var(--text) !important;
     font-family: 'DM Sans', sans-serif !important;
-    font-size: 14px !important;
+    font-size: 13px !important;
 }
 .stSelectbox > div > div:focus-within,
 .stTextInput > div > div > input:focus,
 .stNumberInput > div > div > input:focus,
 .stTextArea > div > div > textarea:focus,
 .stDateInput > div > div > input:focus {
-    border-color: var(--accent) !important;
-    box-shadow: 0 0 0 3px rgba(37,99,235,0.08) !important;
+    border-color: var(--teal) !important;
+    box-shadow: 0 0 0 3px rgba(13,148,136,0.12) !important;
     outline: none !important;
 }
 label[data-testid="stWidgetLabel"] > div > p,
 .stDateInput label, .stSelectbox label,
 .stTextInput label, .stNumberInput label, .stTextArea label {
     color: var(--muted) !important;
-    font-size: 12px !important; font-weight: 500 !important;
+    font-size: 11px !important; font-weight: 500 !important;
+    text-transform: uppercase !important; letter-spacing: .5px !important;
 }
 
-/* ── BUTTONS ── */
-.stButton > button {
-    background: var(--accent) !important; color: #fff !important;
-    border: none !important; border-radius: 8px !important;
-    font-family: 'DM Sans', sans-serif !important;
-    font-weight: 500 !important; font-size: 14px !important;
-    padding: 9px 20px !important; transition: opacity .15s !important;
-    width: 100% !important;
-}
-.stButton > button:hover { opacity: .88 !important; }
+/* ── FORM SUBMIT BUTTON ── */
 .stFormSubmitButton > button {
     width: 100% !important; padding: 13px !important;
-    font-size: 15px !important; font-weight: 600 !important;
-    background: var(--accent) !important; border-radius: 8px !important;
-    letter-spacing: .2px !important;
+    font-size: 14px !important; font-weight: 600 !important;
+    background: linear-gradient(135deg, var(--teal), var(--teal-dk)) !important;
+    color: #fff !important; border: none !important;
+    border-radius: 8px !important; letter-spacing: .3px !important;
 }
 .stFormSubmitButton > button:hover { opacity: .88 !important; }
 
@@ -137,18 +183,20 @@ label[data-testid="stWidgetLabel"] > div > p,
 div[data-testid="metric-container"] {
     background: var(--surface) !important;
     border: 1px solid var(--border) !important;
-    border-radius: var(--radius) !important; padding: 16px 18px !important;
+    border-radius: var(--radius) !important;
+    padding: 16px 18px !important;
+    border-top: 3px solid var(--teal) !important;
 }
 div[data-testid="metric-container"] [data-testid="stMetricLabel"] {
-    color: var(--muted) !important; font-size: 11px !important;
+    color: var(--muted) !important; font-size: 10px !important;
     font-weight: 600 !important; text-transform: uppercase !important;
-    letter-spacing: .6px !important;
+    letter-spacing: .7px !important;
 }
 div[data-testid="metric-container"] [data-testid="stMetricValue"] {
-    color: var(--text) !important; font-size: 26px !important; font-weight: 600 !important;
+    color: var(--text) !important; font-size: 26px !important; font-weight: 700 !important;
 }
 
-/* ── FORM ── */
+/* ── FORM CARD ── */
 .stForm {
     background: var(--surface) !important;
     border: 1px solid var(--border) !important;
@@ -157,57 +205,80 @@ div[data-testid="metric-container"] [data-testid="stMetricValue"] {
 
 /* ── PAGE HEADER ── */
 .pg-header {
-    padding-bottom: 14px; border-bottom: 1px solid var(--border); margin-bottom: 22px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--teal);
+    margin-bottom: 22px;
 }
 .pg-header h1 {
-    font-size: 20px !important; font-weight: 600 !important;
-    color: var(--text) !important; margin: 0 0 2px !important;
+    font-size: 20px !important; font-weight: 700 !important;
+    color: var(--text) !important; margin: 0 0 3px !important;
+    letter-spacing: -.3px !important;
 }
 .pg-header p { color: var(--muted); font-size: 13px; margin: 0; }
 
 /* ── SECTION LABEL ── */
 .sec-label {
-    font-size: 11px; font-weight: 600; text-transform: uppercase;
-    letter-spacing: .9px; color: var(--muted);
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1px; color: var(--teal);
     border-bottom: 1px solid var(--border);
-    padding-bottom: 7px; margin: 18px 0 12px;
+    padding-bottom: 6px; margin: 18px 0 12px;
+    display: flex; align-items: center; gap: 6px;
+}
+.sec-label::before {
+    content: '';
+    display: inline-block;
+    width: 3px; height: 12px;
+    background: var(--teal);
+    border-radius: 2px;
 }
 
-/* ── TASK CARD (timeline view) ── */
+/* ── TASK CARD ── */
 .task-card {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 13px 16px;
-    margin-bottom: 8px; display: flex; align-items: flex-start; gap: 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--teal);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    margin-bottom: 8px;
+    display: flex; align-items: flex-start; gap: 14px;
+    transition: border-color .15s;
 }
+.task-card:hover { border-color: var(--teal-dk); }
 .task-time {
-    font-size: 12px; font-weight: 600; color: var(--accent);
-    min-width: 44px; padding-top: 2px; font-variant-numeric: tabular-nums;
+    font-size: 11px; font-weight: 700; color: var(--teal);
+    min-width: 40px; padding-top: 2px;
+    font-variant-numeric: tabular-nums; flex-shrink: 0;
 }
-.task-body { flex: 1; }
-.task-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+.task-body { flex: 1; min-width: 0; }
+.task-title {
+    font-size: 13px; font-weight: 600; color: var(--text);
+    margin-bottom: 3px; white-space: nowrap;
+    overflow: hidden; text-overflow: ellipsis;
+}
 .task-meta  { font-size: 11px; color: var(--muted); }
 .task-badge {
-    font-size: 10px; font-weight: 600; padding: 2px 8px;
-    border-radius: 20px; white-space: nowrap; align-self: flex-start;
+    font-size: 10px; font-weight: 600; padding: 3px 9px;
+    border-radius: 20px; white-space: nowrap;
+    align-self: flex-start; flex-shrink: 0;
 }
-.badge-done    { background: #dcfce7; color: #15803d; }
-.badge-prog    { background: #dbeafe; color: #1d4ed8; }
-.badge-pending { background: #fef9c3; color: #a16207; }
-.badge-cancel  { background: #fee2e2; color: #dc2626; }
-.badge-other   { background: #f3f4f6; color: #6b7280; }
+.badge-done    { background: #d1fae5; color: #065f46; border: 1px solid #6ee7b7; }
+.badge-prog    { background: var(--teal-lt); color: var(--teal-dk); border: 1px solid var(--aqua); }
+.badge-pending { background: #fef9c3; color: #92400e; border: 1px solid #fde68a; }
+.badge-cancel  { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+.badge-other   { background: #f3f4f6; color: #374151; border: 1px solid #d1d5db; }
 
 /* ── NOTIF ── */
 .notif {
-    border-radius: 8px; padding: 12px 15px; margin-bottom: 18px;
-    display: flex; align-items: flex-start; gap: 10px; border: 1px solid;
+    border-radius: 8px; padding: 13px 16px; margin-bottom: 18px;
+    display: flex; align-items: flex-start; gap: 12px; border: 1px solid;
 }
 .notif.danger  { background: var(--danger-lt); border-color: #fecaca; }
-.notif.ok      { background: var(--ok-lt);     border-color: #bbf7d0; }
+.notif.ok      { background: var(--ok-lt);     border-color: var(--aqua); }
 .notif .ni     { font-size: 16px; line-height: 1.4; flex-shrink: 0; }
 .notif .nb     { flex: 1; }
 .notif .nt     { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
 .notif.danger .nt { color: var(--danger); }
-.notif.ok     .nt { color: var(--ok); }
+.notif.ok     .nt { color: var(--teal-dk); }
 .notif .nd    { font-size: 12px; color: var(--muted); margin-bottom: 7px; }
 .pills        { display: flex; flex-wrap: wrap; gap: 5px; }
 .pill {
@@ -217,34 +288,23 @@ div[data-testid="metric-container"] [data-testid="stMetricValue"] {
 }
 
 /* ── PASSWORD GATE ── */
-.pw-gate {
-    max-width: 360px; margin: 60px auto 0; text-align: center;
-}
+.pw-gate { max-width: 360px; margin: 60px auto 0; text-align: center; }
 .pw-gate .pw-icon { font-size: 40px; margin-bottom: 14px; }
 .pw-gate h2 { font-size: 18px; font-weight: 600; margin-bottom: 6px; }
 .pw-gate p  { font-size: 13px; color: var(--muted); margin-bottom: 22px; }
 
-/* ── TIMELINE HOUR BLOCK ── */
-.hour-block {
-    display: flex; gap: 12px; margin-bottom: 4px;
-    align-items: flex-start; padding: 6px 0;
-    border-bottom: 1px solid var(--border);
+/* ── EDIT BUTTON (small) ── */
+.stButton > button[title="Update status"],
+.stButton > button[title="Update status task ini"] {
+    width: auto !important; padding: 5px 10px !important;
+    font-size: 12px !important;
+    background: var(--teal-lt) !important;
+    color: var(--teal-dk) !important;
+    border: 1px solid var(--aqua) !important;
 }
-.hour-label {
-    font-size: 11px; font-weight: 600; color: var(--faint);
-    min-width: 42px; padding-top: 3px; font-variant-numeric: tabular-nums;
-}
-.hour-tasks { flex: 1; display: flex; flex-wrap: wrap; gap: 5px; }
-.hour-empty { font-size: 11px; color: var(--faint); padding-top: 3px; font-style: italic; }
-
-/* ── EDIT BUTTON (small inline) ── */
-button[kind="secondary"], .stButton > button[data-testid*="edit"] {
-    width: auto !important;
-    padding: 4px 8px !important;
-    font-size: 13px !important;
-    background: var(--bg) !important;
-    color: var(--muted) !important;
-    border: 1px solid var(--border) !important;
+.stButton > button[title="Update status"]:hover,
+.stButton > button[title="Update status task ini"]:hover {
+    background: var(--aqua) !important; opacity: 1 !important;
 }
 
 /* ── DATAFRAME ── */
@@ -253,16 +313,22 @@ button[kind="secondary"], .stButton > button[data-testid*="edit"] {
 
 /* ── MISC ── */
 hr { border-color: var(--border) !important; margin: 18px 0 !important; }
-.stSuccess { background: var(--ok-lt) !important; border: 1px solid #bbf7d0 !important; border-radius: 8px !important; }
+.stSuccess {
+    background: var(--ok-lt) !important;
+    border: 1px solid var(--aqua) !important;
+    border-radius: 8px !important;
+}
 .stWarning { background: var(--warn-lt) !important; border: 1px solid #fde68a !important; border-radius: 8px !important; }
 .stError   { background: var(--danger-lt) !important; border: 1px solid #fecaca !important; border-radius: 8px !important; }
+.stInfo    { background: var(--teal-lt) !important; border: 1px solid var(--aqua) !important; border-radius: 8px !important; }
 .stDownloadButton > button {
-    background: var(--bg) !important; color: var(--accent) !important;
-    border: 1px solid var(--border) !important; border-radius: 8px !important;
+    background: var(--teal-lt) !important; color: var(--teal-dk) !important;
+    border: 1px solid var(--aqua) !important; border-radius: 8px !important;
     font-weight: 500 !important; font-size: 13px !important; width: auto !important;
 }
 ::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--aqua); border-radius: 3px; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -505,7 +571,7 @@ if "Input" in menu:
             if st.session_state.editing_ts == ts_val:
                 with st.form(key=f"inp_update_{ts_val}_{idx}", clear_on_submit=True):
                     st.markdown(
-                        f"<div style='font-size:12px;font-weight:600;color:#2563eb;"
+                        f"<div style='font-size:12px;font-weight:600;color:#0d9488;"
                         f"margin-bottom:8px;'>Update: {hour} — {cat} · {det}</div>",
                         unsafe_allow_html=True
                     )
@@ -768,7 +834,7 @@ if "Dashboard" in menu:
             y=hour_counts["n"],
             marker=dict(
                 color=hour_counts["n"],
-                colorscale=[[0,"#e0e7ff"],[0.4,"#93c5fd"],[1,"#2563eb"]],
+                colorscale=[[0,"#e0f7f4"],[0.4,"#5eead4"],[1,"#0d9488"]],
                 line=dict(width=0)
             ),
             text=hour_counts["n"].apply(lambda v: str(v) if v > 0 else ""),
@@ -780,7 +846,7 @@ if "Dashboard" in menu:
             font=dict(color="#6b7280", family="DM Sans"),
             margin=dict(l=0,r=0,t=8,b=0), height=200,
             xaxis=dict(showgrid=False, tickfont=dict(size=12, color="#374151")),
-            yaxis=dict(showgrid=True, gridcolor="#f3f4f6", showticklabels=False, zeroline=False),
+            yaxis=dict(showgrid=True, gridcolor="#e6f4f2", showticklabels=False, zeroline=False),
             bargap=0.25,
         )
         st.plotly_chart(fig_h, use_container_width=True, config={"displayModeBar": False})
@@ -793,7 +859,7 @@ if "Dashboard" in menu:
             sc = fdf.groupby("Staff").size().reset_index(name="n").sort_values("n")
             fig_s = go.Figure(go.Bar(
                 x=sc["n"], y=sc["Staff"], orientation="h",
-                marker=dict(color="#2563eb", line=dict(width=0)),
+                marker=dict(color="#0d9488", line=dict(width=0)),
                 text=sc["n"], textposition="outside",
                 textfont=dict(color="#6b7280", size=12)
             ))
@@ -801,7 +867,7 @@ if "Dashboard" in menu:
                 paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
                 font=dict(color="#6b7280", family="DM Sans"),
                 margin=dict(l=0,r=36,t=8,b=0), height=320,
-                xaxis=dict(showgrid=True, gridcolor="#f3f4f6", showticklabels=False, zeroline=False),
+                xaxis=dict(showgrid=True, gridcolor="#e6f4f2", showticklabels=False, zeroline=False),
                 yaxis=dict(showgrid=False, tickfont=dict(size=11, color="#374151")),
                 bargap=0.38,
             )
@@ -811,7 +877,7 @@ if "Dashboard" in menu:
         st.markdown('<div class="sec-label">Kategori</div>', unsafe_allow_html=True)
         if "Category" in fdf.columns and not fdf.empty:
             cc = fdf.groupby("Category").size().reset_index(name="n")
-            colors = ["#2563eb","#0891b2","#16a34a","#d97706","#dc2626",
+            colors = ["#0d9488","#0f766e","#16a34a","#d97706","#dc2626",
                       "#7c3aed","#0d9488","#9333ea","#ea580c","#65a30d","#be185d"]
             fig_c = go.Figure(go.Pie(
                 labels=cc["Category"], values=cc["n"], hole=0.52,
@@ -842,7 +908,7 @@ if "Dashboard" in menu:
             sp = fdf.groupby("Supplier").size().reset_index(name="n").sort_values("n", ascending=False)
             fig_sp = go.Figure(go.Bar(
                 x=sp["Supplier"], y=sp["n"],
-                marker=dict(color="#0891b2", line=dict(width=0)),
+                marker=dict(color="#0f766e", line=dict(width=0)),
                 text=sp["n"], textposition="outside",
                 textfont=dict(color="#6b7280", size=13)
             ))
@@ -851,7 +917,7 @@ if "Dashboard" in menu:
                 font=dict(color="#6b7280", family="DM Sans"),
                 margin=dict(l=0,r=0,t=8,b=0), height=240,
                 xaxis=dict(showgrid=False, tickfont=dict(size=12, color="#374151")),
-                yaxis=dict(showgrid=True, gridcolor="#f3f4f6", showticklabels=False, zeroline=False),
+                yaxis=dict(showgrid=True, gridcolor="#e6f4f2", showticklabels=False, zeroline=False),
                 bargap=0.42,
             )
             st.plotly_chart(fig_sp, use_container_width=True, config={"displayModeBar": False})
@@ -866,7 +932,7 @@ if "Dashboard" in menu:
             fig_k = go.Figure(go.Bar(
                 x=["Email","WhatsApp","Telepon"],
                 y=[t_email, t_wa, t_telp],
-                marker=dict(color=["#2563eb","#16a34a","#d97706"], line=dict(width=0)),
+                marker=dict(color=["#0d9488","#0f766e","#374151"], line=dict(width=0)),
                 text=[t_email, t_wa, t_telp], textposition="outside",
                 textfont=dict(color="#6b7280", size=13)
             ))
@@ -875,7 +941,7 @@ if "Dashboard" in menu:
                 font=dict(color="#6b7280", family="DM Sans"),
                 margin=dict(l=0,r=0,t=8,b=0), height=240,
                 xaxis=dict(showgrid=False, tickfont=dict(size=13, color="#374151")),
-                yaxis=dict(showgrid=True, gridcolor="#f3f4f6", showticklabels=False, zeroline=False),
+                yaxis=dict(showgrid=True, gridcolor="#e6f4f2", showticklabels=False, zeroline=False),
                 bargap=0.45,
             )
             st.plotly_chart(fig_k, use_container_width=True, config={"displayModeBar": False})
@@ -889,8 +955,8 @@ if "Dashboard" in menu:
         fig_t = go.Figure(go.Scatter(
             x=daily["Date"], y=daily["n"],
             mode="lines+markers",
-            line=dict(color="#2563eb", width=2),
-            marker=dict(size=6, color="#2563eb", line=dict(color="white", width=1.5)),
+            line=dict(color="#0d9488", width=2.5),
+            marker=dict(size=6, color="#0d9488", line=dict(color="white", width=1.5)),
             fill="tozeroy", fillcolor="rgba(37,99,235,0.06)",
             hovertemplate="<b>%{x|%d %b %Y}</b><br>%{y} task<extra></extra>"
         ))
@@ -899,7 +965,7 @@ if "Dashboard" in menu:
             font=dict(color="#6b7280", family="DM Sans"),
             margin=dict(l=0,r=0,t=8,b=0), height=200,
             xaxis=dict(showgrid=False, tickfont=dict(size=11, color="#6b7280")),
-            yaxis=dict(showgrid=True, gridcolor="#f3f4f6", tickfont=dict(size=11, color="#6b7280"), zeroline=False),
+            yaxis=dict(showgrid=True, gridcolor="#e6f4f2", tickfont=dict(size=11, color="#6b7280"), zeroline=False),
         )
         st.plotly_chart(fig_t, use_container_width=True, config={"displayModeBar": False})
 
@@ -951,7 +1017,7 @@ if "Dashboard" in menu:
                     if st.session_state.editing_ts == ts_val:
                         with st.form(key=f"update_form_{ts_val}_{idx}", clear_on_submit=True):
                             st.markdown(
-                                f"<div style='font-size:12px;font-weight:600;color:#2563eb;"
+                                f"<div style='font-size:12px;font-weight:600;color:#0d9488;"
                                 f"margin-bottom:8px;'>Update task: {hour} — {cat} · {det}</div>",
                                 unsafe_allow_html=True
                             )
