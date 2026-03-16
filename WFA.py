@@ -122,7 +122,7 @@ section[data-testid="stSidebar"] span { color: rgba(255,255,255,.7) !important; 
 
 /* sidebar Refresh button — static white */
 .stButton > button {
-    background: #ffffff !important;
+    background: #f59e0b !important;
     color: var(--blue-dk) !important;
     border: 1px solid var(--blue-mid) !important;
     border-radius: 10px !important;
