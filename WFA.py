@@ -430,7 +430,7 @@ if "Input" in menu:
 
     # ── My Tasks Today (per staff) ─────────────────
     # Staff selector outside form so we can show their timeline
-    sel_staff = st.selectbox("☺️ Pilih nama Anda", ALL_STAFF, key="staff_selector")
+    sel_staff = st.selectbox("👤 Pilih nama Anda", ALL_STAFF, key="staff_selector")
 
     # Show today's timeline for selected staff
     my_tasks = today_df[today_df["Staff"] == sel_staff] if not today_df.empty and "Staff" in today_df.columns else pd.DataFrame()
@@ -462,69 +462,61 @@ if "Input" in menu:
 
     with st.form("task_form", clear_on_submit=True):
 
-        # Row 1: tanggal + jam + divisi
-        r1a, r1b, r1c = st.columns(3)
+        # ── Baris 1: Tanggal · Jam · Zona Waktu · Divisi ──
+        r1a, r1b, r1c, r1d = st.columns([2, 1.5, 2.5, 2])
         with r1a:
             task_date = st.date_input("📅 Tanggal", value=date.today())
         with r1b:
-            _now_hour = datetime.now().hour
+            _now_hour    = datetime.now().hour
             _default_idx = min(_now_hour, len(WORK_HOURS) - 1)
-            task_hour = st.selectbox("🕐 Jam Mulai", WORK_HOURS, index=_default_idx)
+            task_hour = st.selectbox("🕐 Jam", WORK_HOURS, index=_default_idx)
         with r1c:
+            TIMEZONE_OPTIONS = {
+                "WIB — Jakarta (UTC+7)":      "Asia/Jakarta",
+                "WITA — Makassar (UTC+8)":    "Asia/Makassar",
+                "WIT — Jayapura (UTC+9)":     "Asia/Jayapura",
+                "MYT — Kuala Lumpur (UTC+8)": "Asia/Kuala_Lumpur",
+                "SGT — Singapura (UTC+8)":    "Asia/Singapore",
+                "THA — Bangkok (UTC+7)":      "Asia/Bangkok",
+            }
+            tz_label = st.selectbox("🌏 Zona Waktu", list(TIMEZONE_OPTIONS.keys()), index=0)
+        with r1d:
             division = st.selectbox("🏢 Divisi", [
-                "Hotel Reservation","Admin Reservation","Finance"
+                "Hotel Reservation", "Admin Reservation", "Finance"
             ])
 
-        # Row 2: kategori + detail
+        # ── Baris 2: Kategori · Detail Aktivitas ──────────
         r2a, r2b = st.columns(2)
         with r2a:
-            category = st.selectbox("#️⃣ Kategori", CATEGORY_LIST)
+            category = st.selectbox("🏷️ Kategori", CATEGORY_LIST)
         with r2b:
-            detail = st.selectbox("🆕 Detail Aktivitas", DETAIL_LIST)
+            detail = st.selectbox("📋 Detail Aktivitas", DETAIL_LIST)
 
-        # Row 3: booking info
+        # ── Baris 3: Booking ID · Hotel · Supplier ────────
         r3a, r3b, r3c = st.columns(3)
         with r3a:
-            booking_id = st.text_input("ℹ️ Booking ID", placeholder="e.g. VAGHB2603842454")
+            booking_id = st.text_input("🔖 Booking ID", placeholder="e.g. VAGHB2603842454")
         with r3b:
-            hotel = st.text_input("🛅 Hotel", placeholder="e.g. Grand Hyatt Jakarta")
+            hotel = st.text_input("🏩 Hotel", placeholder="e.g. Grand Hyatt Jakarta")
         with r3c:
-            supplier = st.selectbox("🛄 Supplier", SUPPLIER_LIST)
+            supplier = st.selectbox("🤝 Supplier", SUPPLIER_LIST)
 
-        # Row 4: qty + status
-        r4a, r4b = st.columns(2)
+        # ── Baris 4: Status · Qty · Jalur Komunikasi ──────
+        r4a, r4b, r4c = st.columns([2, 1, 3])
         with r4a:
-            qty = st.number_input("🔢 Qty", min_value=1, value=1)
+            status = st.selectbox("📌 Status", STATUS_LIST)
         with r4b:
-            status = st.selectbox("*️⃣ Status", STATUS_LIST)
+            qty = st.number_input("🔢 Qty", min_value=1, value=1)
+        with r4c:
+            kom_channels = st.multiselect(
+                "📡 Jalur Komunikasi",
+                options=["📧 Email", "💬 WhatsApp", "📞 Telepon", "🖥️ Sistem/Portal", "📠 Fax"],
+                default=[],
+                placeholder="Pilih jalur komunikasi..."
+            )
 
-        # Komunikasi — multiselect checkboxes
-        st.markdown("<div style='font-size:12px;font-weight:500;color:#6b7280;margin-bottom:4px;'>Jalur Komunikasi</div>", unsafe_allow_html=True)
-        kom_channels = st.multiselect(
-            "Jalur Komunikasi",
-            options=["1️⃣ Email", "2️⃣ WhatsApp", "3️⃣ Telepon"],
-            default=[],
-            label_visibility="collapsed",
-            placeholder="Pilih jalur komunikasi yang digunakan..."
-        )
-
-        # Timezone selector
-        TIMEZONE_OPTIONS = {
-            "WIB — Jakarta, Indonesia (UTC+7)":         "Asia/Jakarta",
-            "WITA — Makassar, Indonesia (UTC+8)":       "Asia/Makassar",
-            "WIT — Jayapura, Indonesia (UTC+9)":        "Asia/Jayapura",
-            "MYT — Kuala Lumpur, Malaysia (UTC+8)":     "Asia/Kuala_Lumpur",
-            "SGT — Singapura (UTC+8)":                  "Asia/Singapore",
-            "THA — Bangkok, Thailand (UTC+7)":          "Asia/Bangkok",
-        }
-        tz_label = st.selectbox(
-            "🌏 Zona Waktu",
-            options=list(TIMEZONE_OPTIONS.keys()),
-            index=0
-        )
-
-        # Notes
-        notes = st.text_area("📝 Catatan", placeholder="Opsional — isi jika ada hal penting...", height=80)
+        # ── Baris 5: Catatan ──────────────────────────────
+        notes = st.text_area("📝 Catatan", placeholder="Opsional — isi jika ada hal penting...", height=75)
 
         submitted = st.form_submit_button("✅  Simpan Task", use_container_width=True)
 
@@ -533,8 +525,8 @@ if "Input" in menu:
             tz_name   = TIMEZONE_OPTIONS[tz_label]
             tz_obj    = pytz.timezone(tz_name)
             now_local = datetime.now(tz_obj)
-            tz_abbr   = tz_label.split(" — ")[0]   # e.g. "WIB"
-            ts = now_local.strftime(f"%Y-%m-%d %H:%M:%S") + f" {tz_abbr}"
+            tz_abbr   = tz_label.split(" — ")[0]
+            ts = now_local.strftime("%Y-%m-%d %H:%M:%S") + f" {tz_abbr}"
 
             kom_detail = ", ".join([c.split(" ", 1)[1] for c in kom_channels]) if kom_channels else "-"
             kom_total  = len(kom_channels)
