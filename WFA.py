@@ -295,11 +295,9 @@ if existing != HEADERS:
 # CONSTANTS
 # ─────────────────────────────────────────────
 ALL_STAFF = sorted([
-    "Rifyal Tumber","Achmad Rifandi","Muhammad Geraldi Jagaddhita",
-    "Riega Wisudhantara","Farras Mahmud","Veronica Novi Heri","Suyati",
-    "Ade Puspitasari","Selvy Anggraini","Nur Anissa Firda Aulia","Meijika"
+    "Vial","Fandi","Geraldi","Riega","Farras","Baldy",
+    "Vero","Yati","Ade","Selvy","Firda","Meiji","Rida"
 ])
-
 WORK_HOURS = [f"{h:02d}:00" for h in range(0, 25)]  # 00:00–24:00
 
 CATEGORY_LIST = [
