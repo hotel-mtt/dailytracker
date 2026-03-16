@@ -237,6 +237,16 @@ div[data-testid="metric-container"] [data-testid="stMetricValue"] {
 .hour-tasks { flex: 1; display: flex; flex-wrap: wrap; gap: 5px; }
 .hour-empty { font-size: 11px; color: var(--faint); padding-top: 3px; font-style: italic; }
 
+/* ── EDIT BUTTON (small inline) ── */
+button[kind="secondary"], .stButton > button[data-testid*="edit"] {
+    width: auto !important;
+    padding: 4px 8px !important;
+    font-size: 13px !important;
+    background: var(--bg) !important;
+    color: var(--muted) !important;
+    border: 1px solid var(--border) !important;
+}
+
 /* ── DATAFRAME ── */
 .stDataFrame { border: 1px solid var(--border) !important; border-radius: 8px !important; }
 .stDataFrame iframe { border-radius: 8px !important; }
@@ -285,21 +295,22 @@ if existing != HEADERS:
 # CONSTANTS
 # ─────────────────────────────────────────────
 ALL_STAFF = sorted([
-    "Vial","Fandi","Geraldi","Riega","Farras","Baldy",
-    "Vero","Yati","Ade","Selvy","Firda","Meiji","Rida"
+    "Rifyal Tumber","Achmad Rifandi","Muhammad Geraldi Jagaddhita",
+    "Riega Wisudhantara","Farras Mahmud","Veronica Novi Heri","Suyati",
+    "Ade Puspitasari","Selvy Anggraini","Nur Anissa Firda Aulia","Meijika"
 ])
 
 WORK_HOURS = [f"{h:02d}:00" for h in range(0, 25)]  # 00:00–24:00
 
 CATEGORY_LIST = [
     "Booking","Voucher Issued","Follow Up Hotel","Follow Up Supplier",
-    "Void","Refund","Rename Guest","Takeover Payment","Other",
-    "Inject Debit DTM","Complaint Handling","Supplier Invoice Recap",
+    "Void","Refund","Rename Guest","Takeover Payment",
+    "Inject Debit DTM","Complaint Handling","Rekap Tagihan",
 ]
 DETAIL_LIST = sorted([
     "New Hotel Booking","Booking Amendment","Booking Cancellation","Booking Confirmation",
-    "Voucher Issued","Voucher Resend","Voucher Correction","Hotel Mapping","Loading Rate",
-    "Follow Up Hotel","Follow Up Supplier","Follow Up Guest","Supplier Invoice Recap",
+    "Voucher Issued","Voucher Resend","Voucher Correction",
+    "Follow Up Hotel","Follow Up Supplier","Follow Up Guest",
     "Special Request Handling","Room Request Handling",
     "Rename Guest","Add Guest Name","Takeover Payment Process","Credit Card Charge",
     "Inject Debit DTM","Refund Process","Void Transaction","Dispute Handling",
@@ -311,7 +322,7 @@ STATUS_LIST = [
     "Waiting Hotel Confirmation","Waiting Supplier Confirmation","Waiting Guest Response",
     "On Hold","Refund Process","Void Process","Cancelled","Escalated","Rejected"
 ]
-SUPPLIER_LIST = ["DOTW","WebBeds","MG Holiday","Kliknbook","Direct Hotel","Expedia","Other"]
+SUPPLIER_LIST = ["DOTW","WebBeds","MG Holiday","Kliknbook","Direct Hotel"]
 
 MANAGER_PASSWORD = "789789"
 
@@ -322,6 +333,8 @@ if "dashboard_unlocked" not in st.session_state:
     st.session_state.dashboard_unlocked = False
 if "pw_error" not in st.session_state:
     st.session_state.pw_error = False
+if "editing_ts" not in st.session_state:
+    st.session_state.editing_ts = None   # timestamp of the task being edited
 
 # ─────────────────────────────────────────────
 # HELPERS
@@ -347,6 +360,28 @@ def badge_class(status):
     if "pending" in s or "waiting" in s or "hold" in s: return "badge-pending"
     if "cancel" in s or "reject" in s: return "badge-cancel"
     return "badge-other"
+
+def find_row_number(timestamp_val):
+    """Find the 1-based row number in the sheet by matching Timestamp column."""
+    try:
+        ts_col = sheet.col_values(HEADERS.index("Timestamp") + 1)
+        for i, val in enumerate(ts_col):
+            if val == str(timestamp_val):
+                return i + 1   # 1-based
+    except Exception:
+        pass
+    return None
+
+def update_status_in_sheet(timestamp_val, new_status, new_notes):
+    """Update only the Status and Notes cells for the row matching the timestamp."""
+    row_num = find_row_number(timestamp_val)
+    if row_num is None:
+        return False
+    status_col = HEADERS.index("Status") + 1
+    notes_col  = HEADERS.index("Notes")  + 1
+    sheet.update_cell(row_num, status_col, new_status)
+    sheet.update_cell(row_num, notes_col,  new_notes)
+    return True
 
 def parse_kom(s):
     """Parse komunikasi detail — new format: 'Email, WhatsApp' or old 'Email:N WA:N Telp:N'"""
@@ -510,7 +545,7 @@ if "Input" in menu:
         with r4c:
             kom_channels = st.multiselect(
                 "📡 Jalur Komunikasi",
-                options=["1️⃣ Email", "2️⃣ WhatsApp", "3️⃣ Telepon"],
+                options=["📧 Email", "💬 WhatsApp", "📞 Telepon", "🖥️ Sistem/Portal", "📠 Fax"],
                 default=[],
                 placeholder="Pilih jalur komunikasi..."
             )
@@ -831,27 +866,78 @@ if "Dashboard" in menu:
             if staff_tasks.empty:
                 continue
             with st.expander(f"👤 {staff_name}  ({len(staff_tasks)} task)", expanded=False):
-                for _, row in staff_tasks.sort_values("Hour").iterrows():
-                    cat   = row.get("Category","")
-                    det   = row.get("Detail","")
-                    stat  = row.get("Status","")
-                    hotel = row.get("Hotel","")
-                    bid   = row.get("Booking ID","")
-                    hour  = row.get("Hour","--:--")
-                    notes = row.get("Notes","")
-                    bc    = badge_class(stat)
+                for idx, row in staff_tasks.sort_values("Hour").iterrows():
+                    cat       = row.get("Category","")
+                    det       = row.get("Detail","")
+                    stat      = row.get("Status","")
+                    hotel     = row.get("Hotel","")
+                    bid       = row.get("Booking ID","")
+                    hour      = row.get("Hour","--:--")
+                    row_notes = row.get("Notes","")
+                    ts_val    = row.get("Timestamp","")
+                    bc        = badge_class(stat)
                     meta_parts = [x for x in [hotel, bid] if x]
                     meta = " · ".join(meta_parts) if meta_parts else ""
-                    st.markdown(f"""
-                    <div class="task-card">
-                        <div class="task-time">{hour}</div>
-                        <div class="task-body">
-                            <div class="task-title">{cat} — {det}</div>
-                            <div class="task-meta">{meta}{' · ' + notes if notes else ''}</div>
+
+                    # task card + edit button in same row
+                    card_col, btn_col = st.columns([10, 1])
+                    with card_col:
+                        st.markdown(f"""
+                        <div class="task-card">
+                            <div class="task-time">{hour}</div>
+                            <div class="task-body">
+                                <div class="task-title">{cat} — {det}</div>
+                                <div class="task-meta">{meta}{' · ' + row_notes if row_notes else ''}</div>
+                            </div>
+                            <div class="task-badge {bc}">{stat}</div>
                         </div>
-                        <div class="task-badge {bc}">{stat}</div>
-                    </div>
-                    """, unsafe_allow_html=True)
+                        """, unsafe_allow_html=True)
+                    with btn_col:
+                        st.markdown("<div style='padding-top:10px'></div>", unsafe_allow_html=True)
+                        edit_key = f"edit_{ts_val}_{idx}"
+                        if st.button("✏️", key=edit_key, help="Update status task ini"):
+                            st.session_state.editing_ts = ts_val
+
+                    # ── Inline edit form (shown when this task is selected) ──
+                    if st.session_state.editing_ts == ts_val:
+                        with st.form(key=f"update_form_{ts_val}_{idx}", clear_on_submit=True):
+                            st.markdown(
+                                f"<div style='font-size:12px;font-weight:600;color:#2563eb;"
+                                f"margin-bottom:8px;'>Update task: {hour} — {cat} · {det}</div>",
+                                unsafe_allow_html=True
+                            )
+                            uf1, uf2 = st.columns(2)
+                            with uf1:
+                                new_status = st.selectbox(
+                                    "Status baru",
+                                    STATUS_LIST,
+                                    index=STATUS_LIST.index(stat) if stat in STATUS_LIST else 0
+                                )
+                            with uf2:
+                                new_notes = st.text_area(
+                                    "Catatan (opsional)",
+                                    value=row_notes,
+                                    height=70,
+                                    placeholder="Tambah / edit catatan..."
+                                )
+                            sb1, sb2 = st.columns(2)
+                            with sb1:
+                                save_btn = st.form_submit_button("💾  Simpan Update", use_container_width=True)
+                            with sb2:
+                                cancel_btn = st.form_submit_button("✖  Batal", use_container_width=True)
+
+                            if save_btn:
+                                ok = update_status_in_sheet(ts_val, new_status, new_notes)
+                                if ok:
+                                    st.success(f"✅ Status diperbarui → **{new_status}**")
+                                    st.session_state.editing_ts = None
+                                    st.cache_data.clear()
+                                    st.rerun()
+                                else:
+                                    st.error("❌ Gagal menemukan task di sheet. Coba refresh terlebih dahulu.")
+                            if cancel_btn:
+                                st.session_state.editing_ts = None
+                                st.rerun()
 
     # ── Data Table ─────────────────────────────────
     st.divider()
