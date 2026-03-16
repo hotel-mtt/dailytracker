@@ -123,16 +123,17 @@ section[data-testid="stSidebar"] span { color: rgba(255,255,255,.7) !important; 
 /* sidebar Refresh button — static white */
 .stButton > button {
     background: #ffffff !important;
-    color: var(--blue-dk) !important;
+    color: #0a2540 !important;
     border: 1px solid var(--blue-mid) !important;
     border-radius: 10px !important;
     font-family: 'DM Sans', sans-serif !important;
-    font-weight: 600 !important; font-size: 13px !important;
+    font-weight: 700 !important; font-size: 13px !important;
     padding: 9px 20px !important;
     width: 100% !important;
 }
 .stButton > button:hover {
     background: #ffffff !important;
+    color: #0a2540 !important;
     opacity: 1 !important;
     border-color: var(--blue-mid) !important;
 }
