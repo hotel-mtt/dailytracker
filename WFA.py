@@ -122,7 +122,7 @@ section[data-testid="stSidebar"] span { color: rgba(255,255,255,.7) !important; 
 
 /* sidebar Refresh button — static white */
 .stButton > button {
-    background: #DCDCDC !important;
+    background: #ffffff !important;
     color: var(--blue-dk) !important;
     border: 1px solid var(--blue-mid) !important;
     border-radius: 10px !important;
@@ -132,7 +132,7 @@ section[data-testid="stSidebar"] span { color: rgba(255,255,255,.7) !important; 
     width: 100% !important;
 }
 .stButton > button:hover {
-    background: #f59e0b !important;
+    background: #ffffff !important;
     opacity: 1 !important;
     border-color: var(--blue-mid) !important;
 }
@@ -545,8 +545,8 @@ if "Input" in menu:
             row_notes = row.get("Notes","")
             ts_val    = row.get("Timestamp","")
             bc        = badge_class(stat)
-            meta_parts = [x for x in [hotel, bid] if x]
-            meta = " · ".join(meta_parts) if meta_parts else cat
+            meta_parts = [str(x) for x in [hotel, bid] if x and str(x).strip()]
+            meta = " · ".join(meta_parts) if meta_parts else str(cat)
 
             card_col, btn_col = st.columns([10, 1])
             with card_col:
@@ -989,7 +989,7 @@ if "Dashboard" in menu:
                     row_notes = row.get("Notes","")
                     ts_val    = row.get("Timestamp","")
                     bc        = badge_class(stat)
-                    meta_parts = [x for x in [hotel, bid] if x]
+                    meta_parts = [str(x) for x in [hotel, bid] if x and str(x).strip()]
                     meta = " · ".join(meta_parts) if meta_parts else ""
 
                     # task card + edit button in same row
