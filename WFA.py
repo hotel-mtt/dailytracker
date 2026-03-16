@@ -132,7 +132,7 @@ section[data-testid="stSidebar"] span { color: rgba(255,255,255,.7) !important; 
     width: 100% !important;
 }
 .stButton > button:hover {
-    background: #ffffff !important;
+    background: #cce5ff !important;
     opacity: 1 !important;
     border-color: var(--blue-mid) !important;
 }
