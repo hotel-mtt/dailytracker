@@ -298,6 +298,7 @@ ALL_STAFF = sorted([
     "Vial","Fandi","Geraldi","Riega","Farras","Baldy",
     "Vero","Yati","Ade","Selvy","Firda","Meiji","Rida"
 ])
+
 WORK_HOURS = [f"{h:02d}:00" for h in range(0, 25)]  # 00:00–24:00
 
 CATEGORY_LIST = [
@@ -470,26 +471,76 @@ if "Input" in menu:
 
     if not my_tasks.empty:
         st.markdown('<div class="sec-label">Timeline Anda Hari Ini</div>', unsafe_allow_html=True)
-        for _, row in my_tasks.sort_values("Hour").iterrows():
-            cat   = row.get("Category","")
-            det   = row.get("Detail","")
-            stat  = row.get("Status","")
-            hotel = row.get("Hotel","")
-            bid   = row.get("Booking ID","")
-            hour  = row.get("Hour","--:--")
-            bc    = badge_class(stat)
+        for idx, row in my_tasks.sort_values("Hour").iterrows():
+            cat       = row.get("Category","")
+            det       = row.get("Detail","")
+            stat      = row.get("Status","")
+            hotel     = row.get("Hotel","")
+            bid       = row.get("Booking ID","")
+            hour      = row.get("Hour","--:--")
+            row_notes = row.get("Notes","")
+            ts_val    = row.get("Timestamp","")
+            bc        = badge_class(stat)
             meta_parts = [x for x in [hotel, bid] if x]
             meta = " · ".join(meta_parts) if meta_parts else cat
-            st.markdown(f"""
-            <div class="task-card">
-                <div class="task-time">{hour}</div>
-                <div class="task-body">
-                    <div class="task-title">{cat} — {det}</div>
-                    <div class="task-meta">{meta}</div>
+
+            card_col, btn_col = st.columns([10, 1])
+            with card_col:
+                st.markdown(f"""
+                <div class="task-card">
+                    <div class="task-time">{hour}</div>
+                    <div class="task-body">
+                        <div class="task-title">{cat} — {det}</div>
+                        <div class="task-meta">{meta}</div>
+                    </div>
+                    <div class="task-badge {bc}">{stat}</div>
                 </div>
-                <div class="task-badge {bc}">{stat}</div>
-            </div>
-            """, unsafe_allow_html=True)
+                """, unsafe_allow_html=True)
+            with btn_col:
+                st.markdown("<div style='padding-top:10px'></div>", unsafe_allow_html=True)
+                if st.button("✏️", key=f"inp_edit_{ts_val}_{idx}", help="Update status"):
+                    st.session_state.editing_ts = ts_val
+
+            # Inline edit form
+            if st.session_state.editing_ts == ts_val:
+                with st.form(key=f"inp_update_{ts_val}_{idx}", clear_on_submit=True):
+                    st.markdown(
+                        f"<div style='font-size:12px;font-weight:600;color:#2563eb;"
+                        f"margin-bottom:8px;'>Update: {hour} — {cat} · {det}</div>",
+                        unsafe_allow_html=True
+                    )
+                    uf1, uf2 = st.columns(2)
+                    with uf1:
+                        new_status = st.selectbox(
+                            "Status baru",
+                            STATUS_LIST,
+                            index=STATUS_LIST.index(stat) if stat in STATUS_LIST else 0
+                        )
+                    with uf2:
+                        new_notes = st.text_area(
+                            "Catatan",
+                            value=row_notes,
+                            height=70,
+                            placeholder="Tambah / edit catatan..."
+                        )
+                    sb1, sb2 = st.columns(2)
+                    with sb1:
+                        save_ok = st.form_submit_button("💾  Simpan", use_container_width=True)
+                    with sb2:
+                        cancel_ok = st.form_submit_button("✖  Batal", use_container_width=True)
+
+                    if save_ok:
+                        ok = update_status_in_sheet(ts_val, new_status, new_notes)
+                        if ok:
+                            st.success(f"✅ Status → **{new_status}**")
+                            st.session_state.editing_ts = None
+                            st.cache_data.clear()
+                            st.rerun()
+                        else:
+                            st.error("❌ Gagal update. Coba refresh.")
+                    if cancel_ok:
+                        st.session_state.editing_ts = None
+                        st.rerun()
 
     st.markdown('<div class="sec-label">Tambah Task Baru</div>', unsafe_allow_html=True)
 
