@@ -24,36 +24,36 @@ st.markdown("""
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap');
 
 /* ── PALETTE ─────────────────────────────────────────────
-   Navy sidebar   #0e2a47
-   Blue main bg   #daeef8  →  surface: #ffffff
-   Teal accent    #1abc9c  /  #17a589
-   Navy accent    #1565c0  /  #0d47a1
-   Aqua frost     #e0faf4  /  #b2f0e8
-   Text           #0a1929  /  muted: #52718a
+   Sky Blue sidebar  #0d8de0
+   Light blue bg     #f0f8ff  →  surface: #ffffff
+   Blue accent       #1b9cf4  /  #0d7fd6
+   Orange accent     #f59e0b  /  #d97706
+   Blue frost        #e6f4ff  /  #90d0ff
+   Text              #0a2540  /  muted: #4d7fa3
    ─────────────────────────────────────────────────────── */
 :root {
-    --bg:          #daeef8;
+    --bg:          #f0f8ff;
     --surface:     #ffffff;
-    --sidebar-bg:  #0e2a47;
-    --border:      #b8dff0;
-    --border-dk:   #163d5e;
-    --teal:        #1abc9c;
-    --teal-dk:     #17a589;
-    --teal-lt:     #e0faf4;
-    --teal-mid:    #b2f0e8;
-    --navy:        #1565c0;
-    --navy-dk:     #0d47a1;
-    --navy-lt:     #e3f2fd;
-    --aqua:        #b2f0e8;
-    --ok:          #1abc9c;
-    --ok-lt:       #e0faf4;
-    --warn:        #f39c12;
-    --warn-lt:     #fef9e7;
+    --sidebar-bg:  #0d8de0;
+    --border:      #cce5ff;
+    --border-dk:   #1a6fb5;
+    --blue:        #1b9cf4;
+    --blue-dk:     #0d7fd6;
+    --blue-lt:     #e6f4ff;
+    --blue-mid:    #90d0ff;
+    --orange:      #f59e0b;
+    --orange-dk:   #d97706;
+    --orange-lt:   #fff8e6;
+    --orange-mid:  #fcd38a;
+    --ok:          #1b9cf4;
+    --ok-lt:       #e6f4ff;
+    --warn:        #f59e0b;
+    --warn-lt:     #fff8e6;
     --danger:      #e74c3c;
     --danger-lt:   #fdedec;
-    --text:        #0a1929;
-    --muted:       #52718a;
-    --faint:       #8aa5bb;
+    --text:        #0a2540;
+    --muted:       #4d7fa3;
+    --faint:       #8ab8d4;
     --radius:      12px;
 }
 
@@ -79,52 +79,52 @@ section[data-testid="stSidebar"] {
 section[data-testid="stSidebar"] > div { padding-top: 1.2rem !important; }
 section[data-testid="stSidebar"] label,
 section[data-testid="stSidebar"] p,
-section[data-testid="stSidebar"] span { color: #8ab4cc !important; }
+section[data-testid="stSidebar"] span { color: rgba(255,255,255,.7) !important; }
 
 /* brand */
 .app-brand {
     display: flex; align-items: center; gap: 11px;
-    background: rgba(26,188,156,0.15);
-    border: 1px solid rgba(178,240,232,0.25);
+    background: rgba(255,255,255,.15);
+    border: 1px solid rgba(255,255,255,.25);
     border-radius: var(--radius); padding: 13px 15px; margin-bottom: 18px;
 }
 .app-brand-icon {
     width: 38px; height: 38px;
-    background: linear-gradient(135deg, var(--teal), var(--teal-dk));
+    background: var(--orange);
     border-radius: 10px; display: flex; align-items: center;
     justify-content: center; font-size: 19px; flex-shrink: 0;
 }
-.app-brand-name { font-size: 13px; font-weight: 700; color: #e8f4fd !important; line-height: 1.2; }
-.app-brand-sub  { font-size: 11px; color: #8ab4cc !important; }
+.app-brand-name { font-size: 13px; font-weight: 700; color: #ffffff !important; line-height: 1.2; }
+.app-brand-sub  { font-size: 11px; color: rgba(255,255,255,.65) !important; }
 
 .sb-section {
     font-size: 9px; font-weight: 700; letter-spacing: 1.3px;
-    text-transform: uppercase; color: #4d7a95 !important;
+    text-transform: uppercase; color: rgba(255,255,255,.45) !important;
     padding: 0 4px 5px; margin-top: 6px;
 }
 
 /* sidebar mini cards */
 .mini-card {
-    background: rgba(255,255,255,0.06);
-    border: 1px solid var(--border-dk);
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.2);
     border-radius: 10px; padding: 11px 13px; margin-bottom: 7px;
 }
 .mini-card .mc-lbl {
     font-size: 9px; font-weight: 600; text-transform: uppercase;
-    letter-spacing: .7px; color: #8ab4cc !important; margin-bottom: 3px;
+    letter-spacing: .7px; color: rgba(255,255,255,.6) !important; margin-bottom: 3px;
 }
-.mini-card .mc-val { font-size: 22px; font-weight: 700; color: #e8f4fd !important; }
-.mini-card .mc-sub { font-size: 10px; color: #4d7a95 !important; margin-top: 1px; }
-.mini-card.ok    { background: rgba(26,188,156,0.14); border-color: rgba(178,240,232,0.3); }
-.mini-card.ok    .mc-val { color: var(--teal-mid) !important; }
-.mini-card.danger{ background: rgba(231,76,60,0.12); border-color: rgba(253,237,236,0.2); }
-.mini-card.danger .mc-val { color: #f1948a !important; }
+.mini-card .mc-val { font-size: 22px; font-weight: 700; color: #ffffff !important; }
+.mini-card .mc-sub { font-size: 10px; color: rgba(255,255,255,.4) !important; margin-top: 1px; }
+.mini-card.ok    { background: rgba(245,158,11,.2); border-color: rgba(252,211,138,.5); }
+.mini-card.ok    .mc-val { color: var(--orange-mid) !important; }
+.mini-card.danger{ background: rgba(231,76,60,.15); border-color: rgba(253,237,236,.3); }
+.mini-card.danger .mc-val { color: #fca5a5 !important; }
 
 /* sidebar Refresh button — static white */
 .stButton > button {
     background: #ffffff !important;
-    color: var(--navy) !important;
-    border: 1px solid var(--teal-mid) !important;
+    color: var(--blue-dk) !important;
+    border: 1px solid var(--blue-mid) !important;
     border-radius: 10px !important;
     font-family: 'DM Sans', sans-serif !important;
     font-weight: 600 !important; font-size: 13px !important;
@@ -134,7 +134,7 @@ section[data-testid="stSidebar"] span { color: #8ab4cc !important; }
 .stButton > button:hover {
     background: #ffffff !important;
     opacity: 1 !important;
-    border-color: var(--teal-mid) !important;
+    border-color: var(--blue-mid) !important;
 }
 
 /* ── INPUTS ── */
@@ -155,8 +155,8 @@ section[data-testid="stSidebar"] span { color: #8ab4cc !important; }
 .stNumberInput > div > div > input:focus,
 .stTextArea > div > div > textarea:focus,
 .stDateInput > div > div > input:focus {
-    border-color: var(--teal) !important;
-    box-shadow: 0 0 0 3px rgba(26,188,156,0.15) !important;
+    border-color: var(--blue) !important;
+    box-shadow: 0 0 0 3px rgba(27,156,244,.12) !important;
     outline: none !important;
 }
 label[data-testid="stWidgetLabel"] > div > p,
@@ -171,7 +171,7 @@ label[data-testid="stWidgetLabel"] > div > p,
 .stFormSubmitButton > button {
     width: 100% !important; padding: 13px !important;
     font-size: 14px !important; font-weight: 700 !important;
-    background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dk) 100%) !important;
+    background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dk) 100%) !important;
     color: #fff !important; border: none !important;
     border-radius: 10px !important; letter-spacing: .3px !important;
 }
@@ -183,7 +183,10 @@ div[data-testid="metric-container"] {
     border: 1px solid var(--border) !important;
     border-radius: var(--radius) !important;
     padding: 16px 18px !important;
-    border-top: 3px solid var(--teal) !important;
+    border-top: 3px solid var(--blue) !important;
+}
+div[data-testid="metric-container"]:nth-child(even) {
+    border-top-color: var(--orange) !important;
 }
 div[data-testid="metric-container"] [data-testid="stMetricLabel"] {
     color: var(--muted) !important; font-size: 10px !important;
@@ -191,7 +194,7 @@ div[data-testid="metric-container"] [data-testid="stMetricLabel"] {
     letter-spacing: .7px !important;
 }
 div[data-testid="metric-container"] [data-testid="stMetricValue"] {
-    color: var(--navy) !important; font-size: 26px !important; font-weight: 700 !important;
+    color: var(--blue-dk) !important; font-size: 26px !important; font-weight: 700 !important;
 }
 
 /* ── FORM CARD ── */
@@ -204,12 +207,12 @@ div[data-testid="metric-container"] [data-testid="stMetricValue"] {
 /* ── PAGE HEADER ── */
 .pg-header {
     padding-bottom: 14px;
-    border-bottom: 2px solid var(--teal);
+    border-bottom: 3px solid var(--orange);
     margin-bottom: 22px;
 }
 .pg-header h1 {
     font-size: 20px !important; font-weight: 700 !important;
-    color: var(--navy-dk) !important; margin: 0 0 3px !important;
+    color: var(--text) !important; margin: 0 0 3px !important;
     letter-spacing: -.3px !important;
 }
 .pg-header p { color: var(--muted); font-size: 13px; margin: 0; }
@@ -217,7 +220,7 @@ div[data-testid="metric-container"] [data-testid="stMetricValue"] {
 /* ── SECTION LABEL ── */
 .sec-label {
     font-size: 10px; font-weight: 700; text-transform: uppercase;
-    letter-spacing: 1px; color: var(--navy);
+    letter-spacing: 1px; color: var(--blue-dk);
     border-bottom: 1px solid var(--border);
     padding-bottom: 6px; margin: 18px 0 12px;
     display: flex; align-items: center; gap: 6px;
@@ -226,7 +229,7 @@ div[data-testid="metric-container"] [data-testid="stMetricValue"] {
     content: '';
     display: inline-block;
     width: 3px; height: 12px;
-    background: linear-gradient(180deg, var(--teal), var(--navy));
+    background: linear-gradient(180deg, var(--blue), var(--orange));
     border-radius: 2px;
 }
 
@@ -234,14 +237,14 @@ div[data-testid="metric-container"] [data-testid="stMetricValue"] {
 .task-card {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-left: 4px solid var(--teal);
+    border-left: 4px solid var(--blue);
     border-radius: var(--radius);
     padding: 12px 16px;
     margin-bottom: 8px;
     display: flex; align-items: flex-start; gap: 14px;
 }
 .task-time {
-    font-size: 11px; font-weight: 700; color: var(--navy);
+    font-size: 11px; font-weight: 700; color: var(--blue-dk);
     min-width: 40px; padding-top: 2px;
     font-variant-numeric: tabular-nums; flex-shrink: 0;
 }
@@ -258,10 +261,10 @@ div[data-testid="metric-container"] [data-testid="stMetricValue"] {
     align-self: flex-start; flex-shrink: 0;
 }
 .badge-done    { background: #d5f5e3; color: #1e8449; border: 1px solid #82e0aa; }
-.badge-prog    { background: var(--teal-lt); color: var(--teal-dk); border: 1px solid var(--aqua); }
-.badge-pending { background: #fef9e7; color: #9a7d0a; border: 1px solid #f9e79f; }
+.badge-prog    { background: var(--blue-lt); color: var(--blue-dk); border: 1px solid var(--blue-mid); }
+.badge-pending { background: var(--orange-lt); color: var(--orange-dk); border: 1px solid var(--orange-mid); }
 .badge-cancel  { background: #fdedec; color: #cb4335; border: 1px solid #f1948a; }
-.badge-other   { background: var(--navy-lt); color: var(--navy); border: 1px solid #90caf9; }
+.badge-other   { background: #f0f8ff; color: var(--muted); border: 1px solid var(--border); }
 
 /* ── NOTIF ── */
 .notif {
@@ -269,12 +272,12 @@ div[data-testid="metric-container"] [data-testid="stMetricValue"] {
     display: flex; align-items: flex-start; gap: 12px; border: 1px solid;
 }
 .notif.danger  { background: var(--danger-lt); border-color: #f1948a; }
-.notif.ok      { background: var(--ok-lt);     border-color: var(--aqua); }
+.notif.ok      { background: var(--orange-lt); border-color: var(--orange-mid); }
 .notif .ni     { font-size: 16px; line-height: 1.4; flex-shrink: 0; }
 .notif .nb     { flex: 1; }
 .notif .nt     { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
 .notif.danger .nt { color: var(--danger); }
-.notif.ok     .nt { color: var(--teal-dk); }
+.notif.ok     .nt { color: var(--orange-dk); }
 .notif .nd    { font-size: 12px; color: var(--muted); margin-bottom: 7px; }
 .pills        { display: flex; flex-wrap: wrap; gap: 5px; }
 .pill {
@@ -286,7 +289,7 @@ div[data-testid="metric-container"] [data-testid="stMetricValue"] {
 /* ── PASSWORD GATE ── */
 .pw-gate { max-width: 360px; margin: 60px auto 0; text-align: center; }
 .pw-gate .pw-icon { font-size: 40px; margin-bottom: 14px; }
-.pw-gate h2 { font-size: 18px; font-weight: 700; margin-bottom: 6px; color: var(--navy-dk); }
+.pw-gate h2 { font-size: 18px; font-weight: 700; margin-bottom: 6px; color: var(--blue-dk); }
 .pw-gate p  { font-size: 13px; color: var(--muted); margin-bottom: 22px; }
 
 /* ── EDIT BUTTON (small) ── */
@@ -294,13 +297,13 @@ div[data-testid="metric-container"] [data-testid="stMetricValue"] {
 .stButton > button[title="Update status task ini"] {
     width: auto !important; padding: 5px 10px !important;
     font-size: 12px !important;
-    background: var(--teal-lt) !important;
-    color: var(--teal-dk) !important;
-    border: 1px solid var(--aqua) !important;
+    background: var(--blue-lt) !important;
+    color: var(--blue-dk) !important;
+    border: 1px solid var(--blue-mid) !important;
 }
 .stButton > button[title="Update status"]:hover,
 .stButton > button[title="Update status task ini"]:hover {
-    background: var(--teal-lt) !important; opacity: 1 !important;
+    background: var(--blue-lt) !important; opacity: 1 !important;
 }
 
 /* ── DATAFRAME ── */
@@ -309,20 +312,22 @@ div[data-testid="metric-container"] [data-testid="stMetricValue"] {
 
 /* ── MISC ── */
 hr { border-color: var(--border) !important; margin: 18px 0 !important; }
-.stSuccess { background: var(--ok-lt) !important; border: 1px solid var(--aqua) !important; border-radius: 10px !important; }
-.stWarning { background: var(--warn-lt) !important; border: 1px solid #f9e79f !important; border-radius: 10px !important; }
+.stSuccess { background: var(--blue-lt) !important; border: 1px solid var(--blue-mid) !important; border-radius: 10px !important; }
+.stWarning { background: var(--warn-lt) !important; border: 1px solid var(--orange-mid) !important; border-radius: 10px !important; }
 .stError   { background: var(--danger-lt) !important; border: 1px solid #f1948a !important; border-radius: 10px !important; }
-.stInfo    { background: var(--navy-lt) !important; border: 1px solid #90caf9 !important; border-radius: 10px !important; }
+.stInfo    { background: var(--blue-lt) !important; border: 1px solid var(--blue-mid) !important; border-radius: 10px !important; }
 .stDownloadButton > button {
-    background: var(--teal-lt) !important; color: var(--teal-dk) !important;
-    border: 1px solid var(--aqua) !important; border-radius: 10px !important;
+    background: var(--blue-lt) !important; color: var(--blue-dk) !important;
+    border: 1px solid var(--blue-mid) !important; border-radius: 10px !important;
     font-weight: 600 !important; font-size: 13px !important; width: auto !important;
 }
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--teal-mid); border-radius: 3px; }
+::-webkit-scrollbar-thumb { background: var(--blue-mid); border-radius: 3px; }
 </style>
 """, unsafe_allow_html=True)
+
+
 
 
 # ─────────────────────────────────────────────
@@ -564,7 +569,7 @@ if "Input" in menu:
             if st.session_state.editing_ts == ts_val:
                 with st.form(key=f"inp_update_{ts_val}_{idx}", clear_on_submit=True):
                     st.markdown(
-                        f"<div style='font-size:12px;font-weight:600;color:#0d9488;"
+                        f"<div style='font-size:12px;font-weight:600;color:#1b9cf4;"
                         f"margin-bottom:8px;'>Update: {hour} — {cat} · {det}</div>",
                         unsafe_allow_html=True
                     )
@@ -827,7 +832,7 @@ if "Dashboard" in menu:
             y=hour_counts["n"],
             marker=dict(
                 color=hour_counts["n"],
-                colorscale=[[0,"#e0f7f4"],[0.4,"#5eead4"],[1,"#0d9488"]],
+                colorscale=[[0,"#e0f7f4"],[0.4,"#5eead4"],[1,"#1b9cf4"]],
                 line=dict(width=0)
             ),
             text=hour_counts["n"].apply(lambda v: str(v) if v > 0 else ""),
@@ -839,7 +844,7 @@ if "Dashboard" in menu:
             font=dict(color="#6b7280", family="DM Sans"),
             margin=dict(l=0,r=0,t=8,b=0), height=200,
             xaxis=dict(showgrid=False, tickfont=dict(size=12, color="#374151")),
-            yaxis=dict(showgrid=True, gridcolor="#e6f4f2", showticklabels=False, zeroline=False),
+            yaxis=dict(showgrid=True, gridcolor="#e6f4ff", showticklabels=False, zeroline=False),
             bargap=0.25,
         )
         st.plotly_chart(fig_h, use_container_width=True, config={"displayModeBar": False})
@@ -852,7 +857,7 @@ if "Dashboard" in menu:
             sc = fdf.groupby("Staff").size().reset_index(name="n").sort_values("n")
             fig_s = go.Figure(go.Bar(
                 x=sc["n"], y=sc["Staff"], orientation="h",
-                marker=dict(color="#0d9488", line=dict(width=0)),
+                marker=dict(color="#1b9cf4", line=dict(width=0)),
                 text=sc["n"], textposition="outside",
                 textfont=dict(color="#6b7280", size=12)
             ))
@@ -860,7 +865,7 @@ if "Dashboard" in menu:
                 paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
                 font=dict(color="#6b7280", family="DM Sans"),
                 margin=dict(l=0,r=36,t=8,b=0), height=320,
-                xaxis=dict(showgrid=True, gridcolor="#e6f4f2", showticklabels=False, zeroline=False),
+                xaxis=dict(showgrid=True, gridcolor="#e6f4ff", showticklabels=False, zeroline=False),
                 yaxis=dict(showgrid=False, tickfont=dict(size=11, color="#374151")),
                 bargap=0.38,
             )
@@ -870,8 +875,8 @@ if "Dashboard" in menu:
         st.markdown('<div class="sec-label">Kategori</div>', unsafe_allow_html=True)
         if "Category" in fdf.columns and not fdf.empty:
             cc = fdf.groupby("Category").size().reset_index(name="n")
-            colors = ["#0d9488","#0f766e","#16a34a","#d97706","#dc2626",
-                      "#7c3aed","#0d9488","#9333ea","#ea580c","#65a30d","#be185d"]
+            colors = ["#1b9cf4","#0d7fd6","#16a34a","#d97706","#dc2626",
+                      "#7c3aed","#1b9cf4","#9333ea","#ea580c","#65a30d","#be185d"]
             fig_c = go.Figure(go.Pie(
                 labels=cc["Category"], values=cc["n"], hole=0.52,
                 marker=dict(colors=colors[:len(cc)], line=dict(color="#fff",width=2)),
@@ -901,7 +906,7 @@ if "Dashboard" in menu:
             sp = fdf.groupby("Supplier").size().reset_index(name="n").sort_values("n", ascending=False)
             fig_sp = go.Figure(go.Bar(
                 x=sp["Supplier"], y=sp["n"],
-                marker=dict(color="#0f766e", line=dict(width=0)),
+                marker=dict(color="#0d7fd6", line=dict(width=0)),
                 text=sp["n"], textposition="outside",
                 textfont=dict(color="#6b7280", size=13)
             ))
@@ -910,7 +915,7 @@ if "Dashboard" in menu:
                 font=dict(color="#6b7280", family="DM Sans"),
                 margin=dict(l=0,r=0,t=8,b=0), height=240,
                 xaxis=dict(showgrid=False, tickfont=dict(size=12, color="#374151")),
-                yaxis=dict(showgrid=True, gridcolor="#e6f4f2", showticklabels=False, zeroline=False),
+                yaxis=dict(showgrid=True, gridcolor="#e6f4ff", showticklabels=False, zeroline=False),
                 bargap=0.42,
             )
             st.plotly_chart(fig_sp, use_container_width=True, config={"displayModeBar": False})
@@ -925,7 +930,7 @@ if "Dashboard" in menu:
             fig_k = go.Figure(go.Bar(
                 x=["Email","WhatsApp","Telepon"],
                 y=[t_email, t_wa, t_telp],
-                marker=dict(color=["#0d9488","#0f766e","#374151"], line=dict(width=0)),
+                marker=dict(color=["#1b9cf4","#0d7fd6","#374151"], line=dict(width=0)),
                 text=[t_email, t_wa, t_telp], textposition="outside",
                 textfont=dict(color="#6b7280", size=13)
             ))
@@ -934,7 +939,7 @@ if "Dashboard" in menu:
                 font=dict(color="#6b7280", family="DM Sans"),
                 margin=dict(l=0,r=0,t=8,b=0), height=240,
                 xaxis=dict(showgrid=False, tickfont=dict(size=13, color="#374151")),
-                yaxis=dict(showgrid=True, gridcolor="#e6f4f2", showticklabels=False, zeroline=False),
+                yaxis=dict(showgrid=True, gridcolor="#e6f4ff", showticklabels=False, zeroline=False),
                 bargap=0.45,
             )
             st.plotly_chart(fig_k, use_container_width=True, config={"displayModeBar": False})
@@ -948,8 +953,8 @@ if "Dashboard" in menu:
         fig_t = go.Figure(go.Scatter(
             x=daily["Date"], y=daily["n"],
             mode="lines+markers",
-            line=dict(color="#0d9488", width=2.5),
-            marker=dict(size=6, color="#0d9488", line=dict(color="white", width=1.5)),
+            line=dict(color="#1b9cf4", width=2.5),
+            marker=dict(size=6, color="#1b9cf4", line=dict(color="white", width=1.5)),
             fill="tozeroy", fillcolor="rgba(37,99,235,0.06)",
             hovertemplate="<b>%{x|%d %b %Y}</b><br>%{y} task<extra></extra>"
         ))
@@ -958,7 +963,7 @@ if "Dashboard" in menu:
             font=dict(color="#6b7280", family="DM Sans"),
             margin=dict(l=0,r=0,t=8,b=0), height=200,
             xaxis=dict(showgrid=False, tickfont=dict(size=11, color="#6b7280")),
-            yaxis=dict(showgrid=True, gridcolor="#e6f4f2", tickfont=dict(size=11, color="#6b7280"), zeroline=False),
+            yaxis=dict(showgrid=True, gridcolor="#e6f4ff", tickfont=dict(size=11, color="#6b7280"), zeroline=False),
         )
         st.plotly_chart(fig_t, use_container_width=True, config={"displayModeBar": False})
 
@@ -1010,7 +1015,7 @@ if "Dashboard" in menu:
                     if st.session_state.editing_ts == ts_val:
                         with st.form(key=f"update_form_{ts_val}_{idx}", clear_on_submit=True):
                             st.markdown(
-                                f"<div style='font-size:12px;font-weight:600;color:#0d9488;"
+                                f"<div style='font-size:12px;font-weight:600;color:#1b9cf4;"
                                 f"margin-bottom:8px;'>Update task: {hour} — {cat} · {det}</div>",
                                 unsafe_allow_html=True
                             )
