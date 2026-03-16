@@ -294,12 +294,12 @@ WORK_HOURS = [f"{h:02d}:00" for h in range(0, 25)]  # 00:00–24:00
 CATEGORY_LIST = [
     "Booking","Voucher Issued","Follow Up Hotel","Follow Up Supplier",
     "Void","Refund","Rename Guest","Takeover Payment",
-    "Inject Debit DTM","Complaint Handling","Rekap Tagihan",
+    "Inject Debit DTM","Complaint Handling","Vendor Billing",
 ]
 DETAIL_LIST = sorted([
     "New Hotel Booking","Booking Amendment","Booking Cancellation","Booking Confirmation",
-    "Voucher Issued","Voucher Resend","Voucher Correction",
-    "Follow Up Hotel","Follow Up Supplier","Follow Up Guest",
+    "Voucher Issued","Voucher Resend","Voucher Correction","Hotel Mapping","Loading Rate",
+    "Follow Up Hotel","Follow Up Supplier","Follow Up Guest","Vendor Billing",
     "Special Request Handling","Room Request Handling",
     "Rename Guest","Add Guest Name","Takeover Payment Process","Credit Card Charge",
     "Inject Debit DTM","Refund Process","Void Transaction","Dispute Handling",
