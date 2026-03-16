@@ -122,8 +122,8 @@ section[data-testid="stSidebar"] span { color: rgba(255,255,255,.7) !important; 
 
 /* sidebar Refresh button — static white */
 .stButton > button {
-    background: #1b9cf4 !important;
-    color: #0a2540 !important;
+    background: #0a2540 !important;
+    color: #ffffff !important;
     border: 1px solid var(--blue-mid) !important;
     border-radius: 10px !important;
     font-family: 'DM Sans', sans-serif !important;
@@ -132,8 +132,8 @@ section[data-testid="stSidebar"] span { color: rgba(255,255,255,.7) !important; 
     width: 100% !important;
 }
 .stButton > button:hover {
-    background: #ffffff !important;
-    color: #0a2540 !important;
+    background: #f59e0b !important;
+    color: #000000 !important;
     opacity: 1 !important;
     border-color: var(--blue-mid) !important;
 }
