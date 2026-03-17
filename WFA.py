@@ -122,8 +122,8 @@ section[data-testid="stSidebar"] span { color: rgba(255,255,255,.7) !important; 
 
 /* sidebar Refresh button — static white */
 .stButton > button {
-    background: #0a2540 !important;
-    color: #ffffff !important;
+    background: #ffffff !important;
+    color: #0a2540 !important;
     border: 1px solid var(--blue-mid) !important;
     border-radius: 10px !important;
     font-family: 'DM Sans', sans-serif !important;
@@ -132,8 +132,8 @@ section[data-testid="stSidebar"] span { color: rgba(255,255,255,.7) !important; 
     width: 100% !important;
 }
 .stButton > button:hover {
-    background: #f59e0b !important;
-    color: #000000 !important;
+    background: #ffffff !important;
+    color: #0a2540 !important;
     opacity: 1 !important;
     border-color: var(--blue-mid) !important;
 }
@@ -367,8 +367,8 @@ ALL_STAFF = sorted([
 WORK_HOURS = [f"{h:02d}:00" for h in range(0, 25)]  # 00:00–24:00
 
 CATEGORY_LIST = [
-    "Booking","Voucher Issued","Follow Up Hotel","Follow Up Supplier","FU Payment",
-    "Void","Refund","Rename Guest","Takeover Payment","Other",
+    "Booking","Voucher Issued","Follow Up Hotel","Follow Up Supplier",
+    "Void","Refund","Rename Guest","Takeover Payment",
     "Inject Debit DTM","Complaint Handling","Rekap Tagihan",
 ]
 DETAIL_LIST = sorted([
@@ -659,7 +659,7 @@ if "Input" in menu:
         with r4c:
             kom_channels = st.multiselect(
                 "📡 Jalur Komunikasi",
-                options=["Email", "WhatsApp", "Telepon"],
+                options=["📧 Email", "💬 WhatsApp", "📞 Telepon", "🖥️ Sistem/Portal", "📠 Fax"],
                 default=[],
                 placeholder="Pilih jalur komunikasi..."
             )
@@ -677,7 +677,7 @@ if "Input" in menu:
             tz_abbr   = tz_label.split(" — ")[0]
             ts = now_local.strftime("%Y-%m-%d %H:%M:%S") + f" {tz_abbr}"
 
-            kom_detail = ", ".join([c.split(" ", 1)[1] for c in kom_channels]) if kom_channels else "-"
+            kom_detail = ", ".join(kom_channels) if kom_channels else "-"
             kom_total  = len(kom_channels)
             new_row = [
                 str(task_date), task_hour, sel_staff, division,
