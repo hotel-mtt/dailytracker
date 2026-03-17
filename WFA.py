@@ -386,7 +386,7 @@ STATUS_LIST = [
     "Waiting Hotel Confirmation","Waiting Supplier Confirmation","Waiting Guest Response",
     "On Hold","Refund Process","Void Process","Cancelled","Escalated","Rejected"
 ]
-SUPPLIER_LIST = ["DOTW","WebBeds","MG Holiday","Kliknbook","Direct Hotel"]
+SUPPLIER_LIST = ["DOTW","WebBeds","MG Holiday","Kliknbook","Direct Hotel","Expedia","Other"]
 
 MANAGER_PASSWORD = "789789"
 
