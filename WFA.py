@@ -659,7 +659,7 @@ if "Input" in menu:
         with r4c:
             kom_channels = st.multiselect(
                 "📡 Jalur Komunikasi",
-                options=["📧 Email", "💬 WhatsApp", "📞 Telepon", "🖥️ Sistem/Portal", "📠 Fax"],
+                options=["📧 Email", "💬 WhatsApp", "📞 Telepon"],
                 default=[],
                 placeholder="Pilih jalur komunikasi..."
             )
